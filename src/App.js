@@ -5,21 +5,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      Joe's Blog
-      </header>
-      <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <h1>GlitchHunts' Blog</h1>
+      <p>16/07/2020</p>
+      <p>This is my first attempt at writing various bits and pieces down, documenting both my coding journey, as well as notes from my day/week</p>
     </div>
   );
 }
