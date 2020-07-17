@@ -5,6 +5,19 @@ function App() {
   return (
     <div className="App">
       <h1 className="global-header">GlitchHunts&apos; Blog</h1>
+      <div className="new-journal-entry">
+        <form>
+          <label htmlFor="date">
+            Date:
+            <input className="date" type="text" />
+          </label>
+          <label className="new-entry-text" htmlFor="journal-entry">
+            Journal entry:
+            <textarea />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
       <div className="journal-entry-wrapper">
         <p className="date">17/07/2020</p>
         <p className="journal-entry">

@@ -10,9 +10,14 @@ body {
   padding: 5px;
 }
 
+.new-journal-entry {
+  width: 60vw;
+  margin: 0px auto 10px auto;
+  padding: 10px;
+}
+
 .journal-entry-wrapper {
   background-color: white;
-  margin: 15px;
   width: 60vw;
   border: 2px solid #e1e1e2;
   border-radius: 8px;
