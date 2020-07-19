@@ -1,21 +1,87 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import firebase from 'firebase';
+import 'firebase/firestore';
 import './App.css';
 
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASEURL,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
 function App() {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [blogEntries, setBlogEntries] = useState([]);
+  console.log(blogEntries);
+  useEffect(() => {
+    db.collection('blogs')
+      .doc('2J64fVLMjr6uDV1LzIos')
+      .onSnapshot((querySnapshot) => {
+        setBlogEntries(querySnapshot.data().entries);
+      });
+  }, []);
+
+  const handlenNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handlenDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleClick = () => {
+    const newEntry = { name, description };
+    db.collection('blogs')
+      .doc('2J64fVLMjr6uDV1LzIos')
+      .update({
+        entries: [...blogEntries, newEntry]
+      })
+      .then(function (docRef) {
+        console.log('Document written with ID: ', docRef.id);
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+      });
+  };
+
   return (
     <div className="App">
       <h1 className="global-header">GlitchHunts&apos; Blog</h1>
       <div className="new-journal-entry">
         <form>
-          <label htmlFor="date">
-            Date:
-            <input className="date" type="text" />
+          <label htmlFor="name">
+            What is your name?
+            <input type="text" onChange={handlenNameChange} value={name} placeholder="e.g. Joe" />
           </label>
-          <label className="new-entry-text" htmlFor="journal-entry">
-            Journal entry:
-            <textarea />
+          <label htmlFor="new blog">
+            How was your day?
+            <input
+              type="text"
+              onChange={handlenDescriptionChange}
+              value={description}
+              placeholder="Write about your day!"
+            />
           </label>
-          <input type="submit" value="Submit" />
+          {blogEntries &&
+            blogEntries.map((item) => (
+              <div>
+                <h1>{item.date}</h1>
+                <p>{item.name}</p>
+              </div>
+            ))}
+
+          <button type="button" onClick={handleClick}>
+            Submit
+          </button>
         </form>
       </div>
       <div className="journal-entry-wrapper">
