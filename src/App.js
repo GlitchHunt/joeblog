@@ -18,10 +18,9 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 function App() {
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [blogEntries, setBlogEntries] = useState([]);
-  console.log(blogEntries);
   useEffect(() => {
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
@@ -30,20 +29,22 @@ function App() {
       });
   }, []);
 
-  const handlenNameChange = (event) => {
-    setName(event.target.value);
+  const handlenTitleChange = (event) => {
+    setTitle(event.target.value);
   };
 
   const handlenDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
 
+  const postDate = new Date();
+
   const handleClick = () => {
-    const newEntry = { name, description };
+    const newEntry = { title, description, postDate };
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .update({
-        entries: [...blogEntries, newEntry]
+        entries: [newEntry, ...blogEntries]
       })
       .then(function (docRef) {
         console.log('Document written with ID: ', docRef.id);
@@ -58,33 +59,35 @@ function App() {
       <h1 className="global-header">GlitchHunts&apos; Blog</h1>
       <div className="new-journal-entry">
         <form>
-          <label htmlFor="name">
-            What is your name?
-            <input type="text" onChange={handlenNameChange} value={name} placeholder="e.g. Joe" />
+          <label htmlFor="Title">
+            Title your post
+            <input type="text" onChange={handlenTitleChange} value={title} placeholder="e.g. Joe" />
           </label>
+          <break />
           <label htmlFor="new blog">
             How was your day?
-            <input
-              type="text"
+            <textarea
+              type="textarea"
               onChange={handlenDescriptionChange}
               value={description}
               placeholder="Write about your day!"
             />
           </label>
-          {blogEntries &&
-            blogEntries.map((item) => (
-              <div>
-                <h1>{item.date}</h1>
-                <p>{item.name}</p>
-              </div>
-            ))}
-
           <button type="button" onClick={handleClick}>
             Submit
           </button>
         </form>
       </div>
-      <div className="journal-entry-wrapper">
+      <div className="journalEntryMapper">
+        {blogEntries &&
+          blogEntries.map((item) => (
+            <div className="journal-entry-wrapper">
+              <h1>{item.title}</h1>
+              <p>{item.description}</p>
+            </div>
+          ))}
+      </div>
+      {/* <div className="journal-entry-wrapper">
         <p className="date">17/07/2020</p>
         <p className="journal-entry">
           I&apos;m now planning to build out this site into a private journal, taking inspiration
@@ -98,7 +101,7 @@ function App() {
           This is my first attempt at writing various bits and pieces down, documenting both my
           coding journey, as well as notes from my day/week/month/year
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
