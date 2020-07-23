@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import './App.css';
+import format from 'date-fns/format';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -39,8 +40,11 @@ function App() {
 
   const postDate = new Date();
 
+  const formattedDate = format(postDate, 'do MMMM yyyy');
+  console.log(formattedDate);
+
   const handleClick = () => {
-    const newEntry = { title, description, postDate };
+    const newEntry = { title, description, postDate, formattedDate };
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .update({
@@ -83,6 +87,7 @@ function App() {
           blogEntries.map((item) => (
             <div className="journal-entry-wrapper">
               <h1>{item.title}</h1>
+              <p>{item.formattedDate}</p>
               <p>{item.description}</p>
             </div>
           ))}
