@@ -63,23 +63,27 @@ function App() {
       <h1 className="global-header">GlitchHunts&apos; Blog</h1>
       <div className="new-journal-entry">
         <form>
-          <label htmlFor="Title">
-            Title your post
-            <input type="text" onChange={handlenTitleChange} value={title} placeholder="e.g. Joe" />
-          </label>
-          <break />
-          <label htmlFor="new blog">
-            How was your day?
+          <div className="post-title">
+            <input
+              type="text"
+              onChange={handlenTitleChange}
+              value={title}
+              placeholder="Give me a title!"
+            />
+          </div>
+          <div className="post-content">
             <textarea
               type="textarea"
               onChange={handlenDescriptionChange}
               value={description}
               placeholder="Write about your day!"
             />
-          </label>
-          <button type="button" onClick={handleClick}>
-            Submit
-          </button>
+          </div>
+          <div className="post-submit">
+            <button type="button" onClick={handleClick}>
+              Submit
+            </button>
+          </div>
         </form>
       </div>
       <div className="journalEntryMapper">
