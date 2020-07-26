@@ -3,6 +3,9 @@ import firebase from 'firebase';
 import 'firebase/firestore';
 import './App.css';
 import format from 'date-fns/format';
+import gamedimg from './svgs/gamedimg.svg';
+import codedimg from './svgs/codedimg.svg';
+import exercisedimg from './svgs/exercisedimg.svg';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -22,6 +25,9 @@ function App() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [blogEntries, setBlogEntries] = useState([]);
+  const [gamed, setGamed] = useState(false);
+  const [exercised, setExercised] = useState(false);
+  const [coded, setCoded] = useState(false);
   useEffect(() => {
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
@@ -38,13 +44,25 @@ function App() {
     setDescription(event.target.value);
   };
 
+  const handlenGamedChange = (event) => {
+    setGamed(event.target.checked);
+  };
+
+  const handlenExercisedChange = (event) => {
+    setExercised(event.target.checked);
+  };
+
+  const handlenCodedChange = (event) => {
+    setCoded(event.target.checked);
+  };
+
   const postDate = new Date();
 
   const formattedDate = format(postDate, 'do MMMM yyyy');
   console.log(formattedDate);
 
   const handleClick = () => {
-    const newEntry = { title, description, postDate, formattedDate };
+    const newEntry = { title, description, postDate, formattedDate, gamed, exercised, coded };
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .update({
@@ -73,11 +91,20 @@ function App() {
           </div>
           <div className="post-content">
             <textarea
+              className="post-text"
               type="textarea"
               onChange={handlenDescriptionChange}
               value={description}
               placeholder="Write about your day!"
             />
+          </div>
+          <div>
+            <input type="checkbox" value={coded} onChange={handlenCodedChange} />
+            <label htmlFor="Coding">I coded</label>
+            <input type="checkbox" value={exercised} onChange={handlenExercisedChange} />
+            <label htmlFor="Exercise">I exercised</label>
+            <input type="checkbox" value={gamed} onChange={handlenGamedChange} />
+            <label htmlFor="Game">I gamed</label>
           </div>
           <div className="post-submit">
             <button type="button" onClick={handleClick}>
@@ -92,7 +119,11 @@ function App() {
             <div className="journal-entry-wrapper">
               <h1>{item.title}</h1>
               <p>{item.formattedDate}</p>
-              <p>{item.description}</p>
+              <div>
+                {item.gamed && <img src={gamedimg} />}
+                {item.exercised && <img src={exercisedimg} />}
+                {item.coded && <img src={codedimg} />}
+              </div>
             </div>
           ))}
       </div>

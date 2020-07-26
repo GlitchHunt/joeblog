@@ -32,6 +32,12 @@ body {
   width: fit-content;
 }
 
+.post-text {
+  width: 40vw;
+  height: 10vh;
+  resize: none;
+}
+
 .post-submit {
   padding: 3px;
   margin: 3px;
