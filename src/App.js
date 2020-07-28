@@ -28,6 +28,7 @@ function App() {
   const [gamed, setGamed] = useState(false);
   const [exercised, setExercised] = useState(false);
   const [coded, setCoded] = useState(false);
+  const [mood, setMood] = useState();
   useEffect(() => {
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
@@ -56,13 +57,17 @@ function App() {
     setCoded(event.target.checked);
   };
 
+  const handlenMoodChange = (event) => {
+    setMood(event.target.value);
+  };
+
   const postDate = new Date();
 
   const formattedDate = format(postDate, 'do MMMM yyyy');
   console.log(formattedDate);
 
   const handleClick = () => {
-    const newEntry = { title, description, postDate, formattedDate, gamed, exercised, coded };
+    const newEntry = { title, description, postDate, formattedDate, gamed, exercised, coded, mood };
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .update({
@@ -88,6 +93,32 @@ function App() {
               value={title}
               placeholder="Give me a title!"
             />
+            <div>
+              <input
+                type="radio"
+                name="mood"
+                onChange={handlenMoodChange}
+                checked={mood === 'great'}
+                value="great"
+              />
+              <label htmlFor="great">Great</label>
+              <input
+                type="radio"
+                name="mood"
+                onChange={handlenMoodChange}
+                checked={mood === 'meh'}
+                value="meh"
+              />
+              <label htmlFor="meh">Meh</label>
+              <input
+                type="radio"
+                name="mood"
+                onChange={handlenMoodChange}
+                checked={mood === 'rough'}
+                value="rough"
+              />
+              <label htmlFor="rough">Rough</label>
+            </div>
           </div>
           <div className="post-content">
             <textarea
@@ -119,10 +150,16 @@ function App() {
             <div className="journal-entry-wrapper">
               <h1>{item.title}</h1>
               <p>{item.formattedDate}</p>
+              <p>{item.description}</p>
               <div>
                 {item.gamed && <img src={gamedimg} />}
                 {item.exercised && <img src={exercisedimg} />}
                 {item.coded && <img src={codedimg} />}
+              </div>
+              <div>
+                {item.mood === 'great' && <img src={gamedimg} />}
+                {item.mood === 'meh' && <img src={exercisedimg} />}
+                {item.mood === 'rough' && <img src={codedimg} />}
               </div>
             </div>
           ))}
