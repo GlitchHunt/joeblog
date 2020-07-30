@@ -6,6 +6,12 @@ import format from 'date-fns/format';
 import gamedimg from './svgs/gamedimg.svg';
 import codedimg from './svgs/codedimg.svg';
 import exercisedimg from './svgs/exercisedimg.svg';
+import happy from './svgs/happy.svg';
+import happyuncheck from './svgs/happyuncheck.svg';
+import meh from './svgs/meh.svg';
+import mehuncheck from './svgs/mehuncheck.svg';
+import sad from './svgs/sad.svg';
+import saduncheck from './svgs/saduncheck.svg';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -64,7 +70,6 @@ function App() {
   const postDate = new Date();
 
   const formattedDate = format(postDate, 'do MMMM yyyy');
-  console.log(formattedDate);
 
   const handleClick = () => {
     const newEntry = { title, description, postDate, formattedDate, gamed, exercised, coded, mood };
@@ -88,37 +93,12 @@ function App() {
         <form>
           <div className="post-title">
             <input
+              className="title-entry"
               type="text"
               onChange={handlenTitleChange}
               value={title}
               placeholder="Give me a title!"
             />
-            <div>
-              <input
-                type="radio"
-                name="mood"
-                onChange={handlenMoodChange}
-                checked={mood === 'great'}
-                value="great"
-              />
-              <label htmlFor="great">Great</label>
-              <input
-                type="radio"
-                name="mood"
-                onChange={handlenMoodChange}
-                checked={mood === 'meh'}
-                value="meh"
-              />
-              <label htmlFor="meh">Meh</label>
-              <input
-                type="radio"
-                name="mood"
-                onChange={handlenMoodChange}
-                checked={mood === 'rough'}
-                value="rough"
-              />
-              <label htmlFor="rough">Rough</label>
-            </div>
           </div>
           <div className="post-content">
             <textarea
@@ -129,13 +109,107 @@ function App() {
               placeholder="Write about your day!"
             />
           </div>
+          <div className="mood-form">
+            <input
+              id="great"
+              type="radio"
+              name="mood"
+              onChange={handlenMoodChange}
+              checked={mood === 'great'}
+              value="great"
+            />
+            <label htmlFor="great">
+              {' '}
+              {mood === 'great' ? (
+                <img alt="The day was great!" src={happy} width="50px" height="50px" />
+              ) : (
+                <img alt="The day was great!" src={happyuncheck} width="50px" height="50px" />
+              )}
+            </label>
+            <input
+              id="meh"
+              type="radio"
+              name="mood"
+              onChange={handlenMoodChange}
+              checked={mood === 'meh'}
+              value="meh"
+            />
+            <label htmlFor="meh">
+              {' '}
+              {mood === 'meh' ? (
+                <img alt="The day was meh." src={meh} width="50px" height="50px" />
+              ) : (
+                <img alt="The day was great!" src={mehuncheck} width="50px" height="50px" />
+              )}
+            </label>
+            <input
+              id="rough"
+              type="radio"
+              name="mood"
+              onChange={handlenMoodChange}
+              checked={mood === 'rough'}
+              value="rough"
+            />
+            <label htmlFor="rough">
+              {' '}
+              {mood === 'rough' ? (
+                <img alt="The day was rough!" src={sad} width="50px" height="50px" />
+              ) : (
+                <img alt="The day was rough!" src={saduncheck} width="50px" height="50px" />
+              )}
+            </label>
+          </div>
           <div>
-            <input type="checkbox" value={coded} onChange={handlenCodedChange} />
-            <label htmlFor="Coding">I coded</label>
-            <input type="checkbox" value={exercised} onChange={handlenExercisedChange} />
-            <label htmlFor="Exercise">I exercised</label>
-            <input type="checkbox" value={gamed} onChange={handlenGamedChange} />
-            <label htmlFor="Game">I gamed</label>
+            <input id="coding" type="checkbox" value={coded} onChange={handlenCodedChange} />
+            <label htmlFor="coding">
+              {' '}
+              {coded === true ? (
+                <img
+                  alt="I coded"
+                  src={codedimg}
+                  style={{ border: '1px solid blue' }}
+                  width="50px"
+                  height="50px"
+                />
+              ) : (
+                <img alt="I coded" src={codedimg} width="50px" height="50px" />
+              )}
+            </label>
+            <input
+              id="exercise"
+              type="checkbox"
+              value={exercised}
+              onChange={handlenExercisedChange}
+            />
+            <label htmlFor="exercise">
+              {' '}
+              {exercised === true ? (
+                <img
+                  alt="I exercised"
+                  src={exercisedimg}
+                  style={{ border: '1px solid blue' }}
+                  width="50px"
+                  height="50px"
+                />
+              ) : (
+                <img alt="I exercised" src={exercisedimg} width="50px" height="50px" />
+              )}
+            </label>
+            <input id="gaming" type="checkbox" value={gamed} onChange={handlenGamedChange} />
+            <label htmlFor="gaming">
+              {' '}
+              {gamed === true ? (
+                <img
+                  alt="I gamed"
+                  src={gamedimg}
+                  style={{ border: '1px solid blue' }}
+                  width="50px"
+                  height="50px"
+                />
+              ) : (
+                <img alt="I gamed" src={gamedimg} width="50px" height="50px" />
+              )}
+            </label>
           </div>
           <div className="post-submit">
             <button type="button" onClick={handleClick}>
@@ -144,6 +218,7 @@ function App() {
           </div>
         </form>
       </div>
+
       <div className="journalEntryMapper">
         {blogEntries &&
           blogEntries.map((item) => (
@@ -152,33 +227,24 @@ function App() {
               <p>{item.formattedDate}</p>
               <p>{item.description}</p>
               <div>
-                {item.gamed && <img src={gamedimg} />}
-                {item.exercised && <img src={exercisedimg} />}
-                {item.coded && <img src={codedimg} />}
+                {item.gamed && <img alt="I gamed" src={gamedimg} />}
+                {item.exercised && <img alt="I exercised" src={exercisedimg} />}
+                {item.coded && <img alt="I coded" src={codedimg} />}
               </div>
               <div>
-                {item.mood === 'great' && <img src={gamedimg} />}
-                {item.mood === 'meh' && <img src={exercisedimg} />}
-                {item.mood === 'rough' && <img src={codedimg} />}
+                {item.mood === 'great' && (
+                  <img alt="The day was great!" src={happy} width="50px" height="50px" />
+                )}
+                {item.mood === 'meh' && (
+                  <img alt="The day was meh." src={meh} width="50px" height="50px" />
+                )}
+                {item.mood === 'rough' && (
+                  <img alt="The day was rough..." src={sad} width="50px" height="50px" />
+                )}
               </div>
             </div>
           ))}
       </div>
-      {/* <div className="journal-entry-wrapper">
-        <p className="date">17/07/2020</p>
-        <p className="journal-entry">
-          I&apos;m now planning to build out this site into a private journal, taking inspiration
-          from several different applications. I will be mostly working on styling and continuing my
-          React tutorials for the most part, and slowly add features as I go!
-        </p>
-      </div>
-      <div className="journal-entry-wrapper">
-        <p className="date">16/07/2020</p>
-        <p className="journal-entry">
-          This is my first attempt at writing various bits and pieces down, documenting both my
-          coding journey, as well as notes from my day/week/month/year
-        </p>
-      </div> */}
     </div>
   );
 }

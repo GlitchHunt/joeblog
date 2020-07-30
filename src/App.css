@@ -2,6 +2,16 @@ body {
   background-color: azure;
 }
 
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type='radio'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .global-header {
   background-color: cadetblue;
   position: relative;
@@ -18,12 +28,28 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  border: 2px solid #e1e1e2;
+}
+
+.title-entry {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid lightgray;
 }
 
 .post-title {
   padding: 3px;
   margin: 3px;
   width: fit-content;
+  flex-direction: row;
+}
+
+.mood-form {
+  flex-direction: row;
 }
 
 .post-content {
