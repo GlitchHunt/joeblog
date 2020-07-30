@@ -70,6 +70,7 @@ function App() {
   const handleReset = () => {
     setMood();
     setCoded();
+    setGamed();
     setExercised();
     setTitle('');
     setDescription('');
