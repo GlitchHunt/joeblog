@@ -67,6 +67,14 @@ function App() {
     setMood(event.target.value);
   };
 
+  const handleReset = () => {
+    setMood();
+    setCoded();
+    setExercised();
+    setTitle('');
+    setDescription('');
+  };
+
   const postDate = new Date();
 
   const formattedDate = format(postDate, 'do MMMM yyyy');
@@ -212,7 +220,13 @@ function App() {
             </label>
           </div>
           <div className="post-submit">
-            <button type="button" onClick={handleClick}>
+            <button
+              type="button"
+              onClick={() => {
+                handleClick();
+                handleReset();
+              }}
+            >
               Submit
             </button>
           </div>
