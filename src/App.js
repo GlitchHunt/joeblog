@@ -39,7 +39,9 @@ function App() {
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .onSnapshot((querySnapshot) => {
-        setBlogEntries(querySnapshot.data().entries);
+        const firebaseData = querySnapshot.data();
+        setBlogEntries(Object.values(firebaseData.entries));
+        // setBlogEntries(querySnapshot.data().entries);
       });
   }, []);
 
