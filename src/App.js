@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
+import arraySort from 'array-sort';
 import format from 'date-fns/format';
 import gamedimg from './svgs/gamedimg.svg';
 import codedimg from './svgs/codedimg.svg';
@@ -40,10 +42,23 @@ function App() {
       .doc('2J64fVLMjr6uDV1LzIos')
       .onSnapshot((querySnapshot) => {
         const firebaseData = querySnapshot.data();
-        setBlogEntries(Object.values(firebaseData.entries));
+        const blogArray = Object.values(firebaseData.entries);
+        console.log(blogArray);
+        setBlogEntries(blogArray);
+        console.log(arraySort(blogArray, 'postDate'));
+
         // setBlogEntries(querySnapshot.data().entries);
       });
   }, []);
+
+  const handleDeletePost = (id) => {
+    const joesBlog = db.collection('blogs').doc('2J64fVLMjr6uDV1LzIos');
+
+    const remoeBlog = joesBlog.update({
+      [`entries.${id}`]: firebase.firestore.FieldValue.delete()
+    });
+    console.log(remoeBlog);
+  };
 
   const handlenTitleChange = (event) => {
     setTitle(event.target.value);
@@ -83,14 +98,27 @@ function App() {
   const formattedDate = format(postDate, 'do MMMM yyyy');
 
   const handleClick = () => {
-    const newEntry = { title, description, postDate, formattedDate, gamed, exercised, coded, mood };
+    // new id for new entry
+    const newID = uuidv4();
+
+    const newEntry = {
+      title,
+      description,
+      postDate,
+      formattedDate,
+      gamed,
+      exercised,
+      coded,
+      mood,
+      ID: newID
+    };
     db.collection('blogs')
       .doc('2J64fVLMjr6uDV1LzIos')
       .update({
-        entries: [newEntry, ...blogEntries]
+        [`entries.${newID}`]: newEntry
       })
       .then(function (docRef) {
-        console.log('Document written with ID: ', docRef.id);
+        console.log('Document written with ID ');
       })
       .catch(function (error) {
         console.error('Error adding document: ', error);
@@ -239,7 +267,7 @@ function App() {
       <div className="journalEntryMapper">
         {blogEntries &&
           blogEntries.map((item) => (
-            <div className="journal-entry-wrapper">
+            <div className="journal-entry-wrapper" onClick={() => console.log(item.ID)}>
               <h1>{item.title}</h1>
               <p>{item.formattedDate}</p>
               <p>{item.description}</p>
@@ -258,6 +286,9 @@ function App() {
                 {item.mood === 'rough' && (
                   <img alt="The day was rough..." src={sad} width="50px" height="50px" />
                 )}
+              </div>
+              <div>
+                <button onClick={() => handleDeletePost(item.ID)}>Delete</button>
               </div>
             </div>
           ))}
