@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 import './Blog.css';
 import { v4 as uuidv4 } from 'uuid';
