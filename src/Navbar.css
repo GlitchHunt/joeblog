@@ -1,0 +1,9 @@
+.navbar-navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.global-header {
+  font-family: 'Press Start 2P', cursive;
+}
