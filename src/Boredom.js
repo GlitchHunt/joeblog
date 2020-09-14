@@ -15,7 +15,7 @@ function Boredom() {
     if (activity === '') {
       fetchData();
     }
-  }, []);
+  }, [activity]);
 
   return (
     <div className="Boredom">
