@@ -10,10 +10,18 @@ function Navbar() {
         {/* Logo image to be entered here */}
       </div>
       <div className="navbar-navigation">
-        <p>Home</p>
-        <Link to="/Blog">Blog</Link>
-        <p>Boredom</p>
-        <p>About</p>
+        <p>
+          <Link to="/Home">Home</Link>
+        </p>
+        <p>
+          <Link to="/Blog">Blog</Link>
+        </p>
+        <p>
+          <Link to="/Boredom">Boredom</Link>
+        </p>
+        <p>
+          <Link to="/About">About</Link>
+        </p>
       </div>
     </div>
   );

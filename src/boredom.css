@@ -1,4 +1,10 @@
-.boredom {
+.boredbox {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.evil-button {
+  width: 10em;
+  margin-top: 20px;
 }
