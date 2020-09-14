@@ -9,8 +9,6 @@ function Boredom() {
     const { data } = await axios.get('http://www.boredapi.com/api/activity/');
 
     setActivity(data.activity);
-
-    console.log(data);
   }
 
   useEffect(() => {
@@ -18,7 +16,6 @@ function Boredom() {
       fetchData();
     }
   }, []);
-  console.log(activity);
 
   return (
     <div className="Boredom">
